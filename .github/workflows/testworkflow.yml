@@ -4,8 +4,8 @@
 name: Validate AWS OIDC
 
 on:
-  workflow_dispatch:
-
+ push
+ 
 permissions:
   id-token: write
   contents: read
@@ -19,7 +19,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_IAM_ROLE  }}
           aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
-      #   role-session-name: gh-oidc-validate-${{ github.run_id }}
+          role-session-name: gh-oidc-validate-${{ github.run_id }}
 
       - name: STS GetCallerIdentity
         id: sts
