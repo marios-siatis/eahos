@@ -1,24 +1,42 @@
-name: AWS OIDC Test
+# Smoke-test GitHub → AWS OIDC: assumes the same role as Terraform plan/apply and calls STS.
+# Prerequisites: repository secret AWS_ROLE_ARN, IAM trust for this repo
+# (e.g. repo:ORG/foundations:ref:refs/heads/main and/or :pull_request on workflow_dispatch branch).
+name: Validate AWS OIDC
 
 on:
-  push
+  workflow_dispatch:
 
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  oidc-test:
+  verify:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Source
-        uses: actions/checkout@v6
-
-      - name: Configure AWS Credentials using OIDC
-        uses: aws-actions/configure-aws-credentials@v4.1.0
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v6.0.0
         with:
-          aws-region: eu-west-2
-          role-to-assume: ${{ secrets.AWS_IAM_ROLE }}
-      - name: Test AWS Credentials
-        run: aws sts get-caller-identity
+          role-to-assume: ${{ secrets.AWS_IAM_ROLE  }}
+          aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
+      #   role-session-name: gh-oidc-validate-${{ github.run_id }}
+
+      - name: STS GetCallerIdentity
+        id: sts
+        run: |
+          aws sts get-caller-identity --output json | tee caller.json
+          echo "account=$(jq -r .Account caller.json)" >> "$GITHUB_OUTPUT"
+          echo "arn=$(jq -r .Arn caller.json)" >> "$GITHUB_OUTPUT"
+          echo "userid=$(jq -r .UserId caller.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Summary
+        run: |
+          {
+            echo "### AWS OIDC validation"
+            echo ""
+            echo "**Account:** \`${{ steps.sts.outputs.account }}\`"
+            echo "**ARN:** \`${{ steps.sts.outputs.arn }}\`"
+            echo "**UserId:** \`${{ steps.sts.outputs.userid }}\`"
+            echo ""
+            echo "If this job is green, GitHub Actions successfully assumed the IAM role via OIDC."
+          } >> "$GITHUB_STEP_SUMMARY"
