@@ -1,0 +1,20 @@
+aws_region = "eu-west-2"
+
+project_name = "eahos"
+environment  = "prod"
+
+# Leave blank to generate a globally unique bucket name from your AWS account ID.
+bucket_name = ""
+
+smtp_host     = "smtp.example.com"
+smtp_port     = 587
+smtp_secure   = false
+smtp_user     = "contact@eahos.com"
+smtp_password = "REPLACE_WITH_REAL_PASSWORD"
+mail_from     = "contact@eahos.com"
+
+# Initially leave this false. You can enable the domain after the AWS stack works.
+enable_custom_domain = false
+custom_domain        = "eahos.com"
+acm_certificate_arn  = ""
+route53_zone_id      = ""

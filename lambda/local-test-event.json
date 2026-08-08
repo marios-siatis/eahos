@@ -1,0 +1,12 @@
+{
+  "version": "2.0",
+  "routeKey": "POST /api/contact",
+  "rawPath": "/api/contact",
+  "requestContext": {
+    "http": {
+      "method": "POST"
+    }
+  },
+  "body": "{\"name\":\"Test User\",\"email\":\"test@example.com\",\"message\":\"Hello EAHOS\"}",
+  "isBase64Encoded": false
+}
