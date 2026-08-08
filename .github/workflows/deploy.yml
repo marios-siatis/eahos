@@ -6,51 +6,90 @@ on:
       - main
   workflow_dispatch:
 
+# Required for GitHub OIDC authentication with AWS
 permissions:
   contents: read
   id-token: write
 
 jobs:
   deploy:
+    name: Build and Deploy
     runs-on: ubuntu-latest
 
     steps:
+      # --------------------------------------------------
+      # 1. Checkout repository
+      # --------------------------------------------------
       - name: Checkout
         uses: actions/checkout@v4
 
+      # --------------------------------------------------
+      # 2. Authenticate to AWS using GitHub OIDC
+      # --------------------------------------------------
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
+          audience: sts.amazonaws.com
 
+      # --------------------------------------------------
+      # 3. Verify AWS authentication
+      # --------------------------------------------------
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
+
+      # --------------------------------------------------
+      # 4. Setup Node.js
+      # --------------------------------------------------
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
+      # --------------------------------------------------
+      # 5. Install dependencies
+      # --------------------------------------------------
       - name: Install frontend dependencies
         run: npm ci
 
+      # --------------------------------------------------
+      # 6. Build React application
+      # --------------------------------------------------
       - name: Build frontend
         run: npm run build
 
+      # --------------------------------------------------
+      # 7. Setup Terraform
+      # --------------------------------------------------
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      # --------------------------------------------------
+      # 8. Terraform init
+      # --------------------------------------------------
       - name: Terraform init
         working-directory: infra
         run: terraform init
 
+      # --------------------------------------------------
+      # 9. Terraform formatting check
+      # --------------------------------------------------
       - name: Terraform fmt check
         working-directory: infra
         run: terraform fmt -check -recursive
 
+      # --------------------------------------------------
+      # 10. Terraform validation
+      # --------------------------------------------------
       - name: Terraform validate
         working-directory: infra
         run: terraform validate
 
+      # --------------------------------------------------
+      # 11. Deploy AWS infrastructure
+      # --------------------------------------------------
       - name: Terraform apply
         working-directory: infra
         env:
@@ -61,18 +100,48 @@ jobs:
           TF_VAR_smtp_password: ${{ secrets.SMTP_PASSWORD }}
         run: terraform apply -auto-approve
 
+      # --------------------------------------------------
+      # 12. Upload React build to S3
+      # --------------------------------------------------
       - name: Upload frontend to S3
         run: |
           BUCKET=$(cd infra && terraform output -raw frontend_bucket_name)
+
+          echo "Uploading frontend to: $BUCKET"
+
           aws s3 sync dist/ "s3://$BUCKET" --delete
 
+      # --------------------------------------------------
+      # 13. Invalidate CloudFront cache
+      # --------------------------------------------------
       - name: Invalidate CloudFront
         run: |
           DOMAIN=$(cd infra && terraform output -raw cloudfront_domain_name)
+
+          echo "CloudFront domain: $DOMAIN"
+
           DISTRIBUTION_ID=$(aws cloudfront list-distributions \
             --query "DistributionList.Items[?DomainName=='$DOMAIN'].Id | [0]" \
             --output text)
 
+          echo "CloudFront distribution: $DISTRIBUTION_ID"
+
           aws cloudfront create-invalidation \
             --distribution-id "$DISTRIBUTION_ID" \
             --paths "/*"
+
+      # --------------------------------------------------
+      # 14. Show deployment URL
+      # --------------------------------------------------
+      - name: Deployment information
+        working-directory: infra
+        run: |
+          echo "======================================"
+          echo "EAHOS deployment completed"
+          echo "======================================"
+          echo "Website:"
+          terraform output -raw cloudfront_url
+          echo ""
+          echo "Contact API:"
+          terraform output -raw contact_api_url
+          echo ""
