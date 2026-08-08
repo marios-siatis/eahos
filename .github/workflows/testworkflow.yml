@@ -1,7 +1,7 @@
 name: AWS OIDC Test
 
 on:
-  workflow_dispatch:
+  push
 
 permissions:
   id-token: write
@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout Source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Configure AWS Credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v4.1.0
