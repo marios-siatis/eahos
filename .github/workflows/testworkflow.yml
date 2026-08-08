@@ -8,8 +8,8 @@ name: AWS example workflow
 on:
   push
 env:
-  BUCKET_NAME : "BUCKET-NAME"
-  AWS_REGION : "AWS-REGION"
+  BUCKET_NAME: "eahos-ghtest-bucket"
+  AWS_REGION: ${{ vars.AWS_REGION }}
 # permission can be added at job level or workflow level
 permissions:
   id-token: write   # This is required for requesting the JWT
