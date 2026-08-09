@@ -4,30 +4,33 @@ import "./styles.css";
 
 const products = [
   {
-    name: "Summon Earth",
-    tagline: "Discover your Parallel Living Person",
+    name: "Leckse",
+    tagline: "Highlight the web. Remember more.",
     description:
-      "A platform for personal growth and self-discovery. Set goals, track your journey and connect with people on similar paths.",
+      "A Chrome extension that lets you highlight any website and save it to your personal library. Discover the most important insights from thousands of users around the world.",
+    icon: "▱",
+    accent: "violet",
+    tags: ["Chrome Extension", "Productivity", "Knowledge"],
+    href: "#"
+  },
+  {
+    name: "Summon Earth",
+    tagline: "Live Your Parallel Life",
+    description:
+      "Design your parallel life. Set goals, track progress and connect with a community of people on similar paths.",
     icon: "◉",
     accent: "green",
+    tags: ["Goals", "Community", "Progress", "Mindset"],
     href: "https://summonearth.com"
   },
   {
     name: "EAHOS Music",
-    tagline: "Organize your Playlists. Enjoy Music.",
+    tagline: "Smarter Playlists. Better Music.",
     description:
-      "AI-powered playlist management that discovers, organizes and delivers the perfect soundtrack for every moment.",
+      "AI-powered playlist management that helps you discover, organize and enjoy music that matches your mood and moment.",
     icon: "♫",
-    accent: "purple",
-    href: "#"
-  },
-  {
-    name: "Leckse",
-    tagline: "Highlight the Web. Increase Productivity.",
-    description:
-      "Capture and save the most important ideas from anywhere on the web. Your highlights, all in one place.",
-    icon: "▱",
-    accent: "violet",
+    accent: "orange",
+    tags: ["AI Recommendations", "Music", "Playlists"],
     href: "#"
   }
 ];
@@ -133,13 +136,19 @@ function App() {
               <p className="eyebrow">OUR PRODUCTS</p>
               <h2>Products that solve real problems.</h2>
             </div>
-            <span className="view-link">Our product portfolio →</span>
+            {/* <span className="view-link">Our product portfolio →</span> */}
           </div>
 
           <div className="product-grid">
             {products.map((product) => (
               <article className="product-card" key={product.name}>
-                <div className={`product-icon ${product.accent}`}>{product.icon}</div>
+                <div className="product-heading">
+                  <div className={`product-icon ${product.accent}`}>{product.icon}</div>
+                  <div>
+                    <h3>{product.name}</h3>
+                    <p className={`tagline ${product.accent}`}>{product.tagline}</p>
+                  </div>
+                </div>
 
                 <div className="mock-window">
                   <div className="window-bar"><span></span><span></span><span></span></div>
@@ -153,6 +162,7 @@ function App() {
                       </>
                     ) : product.name === "Summon Earth" ? (
                       <>
+                        <div className="summon-banner"><span>Good morning, Alex</span></div>
                         <div className="mock-stat"><b>24</b><small>Goals</small></div>
                         <div className="mock-stat"><b>128</b><small>Connections</small></div>
                         <div className="mock-stat"><b>78%</b><small>Progress</small></div>
@@ -167,26 +177,10 @@ function App() {
                   </div>
                 </div>
 
-                <h3>{product.name}</h3>
-                <p className={`tagline ${product.accent}`}>{product.tagline}</p>
                 <p className="description">{product.description}</p>
 
                 <div className="chips">
-                  <span>
-                    {product.name === "Leckse"
-                      ? "Chrome Extension"
-                      : product.name === "Summon Earth"
-                        ? "Community"
-                        : "AI"}
-                  </span>
-                  <span>
-                    {product.name === "Leckse"
-                      ? "Knowledge"
-                      : product.name === "Summon Earth"
-                        ? "Goals"
-                        : "Music"}
-                  </span>
-                  <span>{product.name === "Leckse" ? "Productivity" : "Cloud"}</span>
+                  {product.tags.map((tag) => <span key={tag}>{tag}</span>)}
                 </div>
 
                 <a className="learn" href={product.href}>Learn more →</a>
