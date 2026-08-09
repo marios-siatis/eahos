@@ -273,9 +273,6 @@ resource "aws_cloudfront_distribution" "eahos" {
     ManagedBy   = "Terraform"
   }
 
-  depends_on = [
-    aws_s3_bucket_policy.frontend
-  ]
 }
 
 resource "aws_route53_record" "custom_domain" {
