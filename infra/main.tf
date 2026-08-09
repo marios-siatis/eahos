@@ -1,5 +1,5 @@
 locals {
-  name = "${var.project_name}-${var.environment}"
+  name        = "${var.project_name}-${var.environment}"
   bucket_name = var.bucket_name != "" ? var.bucket_name : "${var.project_name}-${var.environment}-frontend-${data.aws_caller_identity.current.account_id}"
 }
 
