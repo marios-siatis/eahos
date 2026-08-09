@@ -54,6 +54,28 @@ function Logo() {
   );
 }
 
+function ProductIcon({ product }) {
+  if (product.name === "Leckse") {
+    return (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M14 9.5h20v29L24 31l-10 7.5v-29Z" />
+        <path d="M18 14h12" />
+      </svg>
+    );
+  }
+
+  if (product.name === "Summon Earth") {
+    return (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="15" />
+        <path d="M9 24h30M24 9c5 4 7 9 7 15s-2 11-7 15c-5-4-7-9-7-15s2-11 7-15ZM12 17h24M12 31h24" />
+      </svg>
+    );
+  }
+
+  return product.icon;
+}
+
 function App() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState({ type: "", text: "" });
@@ -143,7 +165,7 @@ function App() {
             {products.map((product) => (
               <article className="product-card" key={product.name}>
                 <div className="product-heading">
-                  <div className={`product-icon ${product.accent}`}>{product.icon}</div>
+                  <div className={`product-icon ${product.accent}`}><ProductIcon product={product} /></div>
                   <div>
                     <h3>{product.name}</h3>
                     <p className={`tagline ${product.accent}`}>{product.tagline}</p>
