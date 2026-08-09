@@ -218,7 +218,7 @@ function App() {
             </label>
             <label>
               Email
-              <input required type="email" name="email" value={form.email} onChange={update} placeholder="contact@eahos.com" />
+              <input required type="email" name="email" value={form.email} onChange={update} placeholder="you@example.com" />
             </label>
             <label>
               Message
