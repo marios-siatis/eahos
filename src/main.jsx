@@ -5,7 +5,7 @@ import "./styles.css";
 const products = [
   {
     name: "Summon Earth",
-    tagline: "Live Your Parallel Life",
+    tagline: "Discover your Parallel Living Person",
     description:
       "A platform for personal growth and self-discovery. Set goals, track your journey and connect with people on similar paths.",
     icon: "◉",
@@ -14,7 +14,7 @@ const products = [
   },
   {
     name: "EAHOS Music",
-    tagline: "Smarter Playlists. Better Music.",
+    tagline: "Organize your Playlists. Enjoy Music.",
     description:
       "AI-powered playlist management that discovers, organizes and delivers the perfect soundtrack for every moment.",
     icon: "♫",
@@ -23,7 +23,7 @@ const products = [
   },
   {
     name: "Leckse",
-    tagline: "Highlight the Web. Remember More.",
+    tagline: "Highlight the Web. Increase Productivity.",
     description:
       "Capture and save the most important ideas from anywhere on the web. Your highlights, all in one place.",
     icon: "▱",
@@ -218,7 +218,7 @@ function App() {
             </label>
             <label>
               Email
-              <input required type="email" name="email" value={form.email} onChange={update} placeholder="you@example.com" />
+              <input required type="email" name="email" value={form.email} onChange={update} placeholder="contact@eahos.com" />
             </label>
             <label>
               Message
@@ -247,15 +247,15 @@ function App() {
         <div>
           <h4>Products</h4>
           <a href="#products">Summon Earth</a>
-          <a href="#products">EAHOS Music</a>
+          <a href="#products">EAHOS</a>
           <a href="#products">Leckse</a>
         </div>
-        <div>
+        {/* <div>
           <h4>Resources</h4>
           <a href="#">Blog</a>
           <a href="#">Documentation</a>
           <a href="#">Privacy Policy</a>
-        </div>
+        </div> */}
         <div className="copyright">© 2026 EAHOS. All rights reserved.</div>
       </footer>
     </div>
