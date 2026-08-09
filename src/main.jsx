@@ -120,7 +120,7 @@ function App() {
       setForm({ name: "", email: "", message: "" });
       setStatus({
         type: "success",
-        text: "Thanks — your message has been sent to EAHOS."
+        text: "Thanks! Your message has been sent to EAHOS."
       });
     } catch (error) {
       setStatus({
