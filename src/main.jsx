@@ -17,7 +17,7 @@ const products = [
     name: "Summon Earth",
     tagline: "Live Your Parallel Life",
     description:
-      "Design your parallel life. Set goals, track progress and connect with a community of people on similar paths.",
+      "Connect with a people who share similar life paths.",
     icon: "◉",
     accent: "green",
     tags: ["Goals", "Community", "Progress", "Mindset"],
