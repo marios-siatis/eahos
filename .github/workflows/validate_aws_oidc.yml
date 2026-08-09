@@ -4,7 +4,9 @@
 name: Validate AWS OIDC
 
 on:
- push
+  push:
+    branches:
+      - main
 
 permissions:
   id-token: write
