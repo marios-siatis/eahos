@@ -55,13 +55,19 @@ jobs:
         run: npm ci
 
       # --------------------------------------------------
-      # 6. Build React application
+      # 6. Install Lambda dependencies for the deployment ZIP
+      # --------------------------------------------------
+      - name: Install Lambda dependencies
+        run: npm ci --prefix lambda
+
+      # --------------------------------------------------
+      # 7. Build React application
       # --------------------------------------------------
       - name: Build frontend
         run: npm run build
 
       # --------------------------------------------------
-      # 7. Setup Terraform
+      # 8. Setup Terraform
       # --------------------------------------------------
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3

@@ -88,7 +88,7 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 
 data "archive_file" "lambda" {
   type        = "zip"
-  source_file = "${path.module}/../lambda/index.mjs"
+  source_dir  = "${path.module}/../lambda"
   output_path = "${path.module}/lambda.zip"
 }
 
