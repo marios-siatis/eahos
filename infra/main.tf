@@ -280,6 +280,15 @@ resource "aws_cloudfront_distribution" "eahos" {
     ManagedBy   = "Terraform"
   }
 
+  # The custom domain and ACM certificate are currently managed outside this
+  # configuration. Keep Terraform from reverting those manual settings.
+  lifecycle {
+    ignore_changes = [
+      aliases,
+      viewer_certificate,
+    ]
+  }
+
 }
 
 resource "aws_route53_record" "custom_domain" {
