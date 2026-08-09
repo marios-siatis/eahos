@@ -32,6 +32,16 @@ const products = [
   }
 ];
 
+const technologies = [
+  { name: ".NET", logo: "https://cdn.simpleicons.org/dotnet/512BD4" },
+  { name: "React", logo: "https://cdn.simpleicons.org/react/61DAFB" },
+  { name: "AWS", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" },
+  { name: "PostgreSQL", logo: "https://cdn.simpleicons.org/postgresql/4169E1" },
+  { name: "Docker", logo: "https://cdn.simpleicons.org/docker/2496ED" },
+  { name: "Lambda", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" },
+  { name: "CloudFront", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" }
+];
+
 function Logo() {
   return (
     <a className="logo" href="#top" aria-label="EAHOS home">
@@ -198,8 +208,18 @@ function App() {
         <section className="technology section" id="technology">
           <p className="eyebrow">POWERED BY MODERN TECHNOLOGIES</p>
           <div className="tech-list">
-            <span>.NET</span><span>React</span><span>AWS</span><span>PostgreSQL</span>
-            <span>Docker</span><span>Lambda</span><span>CloudFront</span>
+            {technologies.map((technology) => (
+              <div className="tech-item" key={technology.name}>
+                <img
+                  className="tech-logo"
+                  src={technology.logo}
+                  alt=""
+                  loading="lazy"
+                  onError={(event) => { event.currentTarget.hidden = true; }}
+                />
+                <span>{technology.name}</span>
+              </div>
+            ))}
           </div>
         </section>
 
