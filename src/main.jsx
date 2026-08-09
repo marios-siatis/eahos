@@ -76,6 +76,21 @@ function ProductIcon({ product }) {
   return product.icon;
 }
 
+function PillarIcon({ type }) {
+  const common = { viewBox: "0 0 48 48", "aria-hidden": true };
+
+  if (type === "people") {
+    return <svg {...common}><circle cx="24" cy="15" r="5" /><circle cx="11" cy="20" r="4" /><circle cx="37" cy="20" r="4" /><path d="M16 35v-3c0-5 3.5-8 8-8s8 3 8 8v3M3 37v-2c0-4 3-7 7-7s7 3 7 7M28 35v-2c0-4 3-7 7-7s7 3 7 7" /></svg>;
+  }
+  if (type === "privacy") {
+    return <svg {...common}><path d="M24 5 38 11v10c0 10-6 17-14 21-8-4-14-11-14-21V11l14-6Z" /><path d="m18 24 4 4 8-9" /></svg>;
+  }
+  if (type === "improving") {
+    return <svg {...common}><path d="m29 4-18 24h12l-4 16 18-25H25l4-15Z" /></svg>;
+  }
+  return <svg {...common}><circle cx="24" cy="24" r="18" /><path d="M6 24h36M24 6c6 5 9 11 9 18s-3 13-9 18c-6-5-9-11-9-18S18 11 24 6ZM9 15h30M9 33h30" /></svg>;
+}
+
 function App() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState({ type: "", text: "" });
@@ -212,12 +227,12 @@ function App() {
         </section>
 
         <section className="pillars section" id="about">
-          <p className="eyebrow">BUILT FOR TODAY. READY FOR TOMORROW.</p>
+          <p className="eyebrow">BUILT FOR MODERN NEEDS</p>
           <div className="pillar-grid">
-            <div><b>✦</b><h3>Innovative Products</h3><p>We build solutions that solve real problems and make a lasting impact.</p></div>
-            <div><b>♙</b><h3>Built for People</h3><p>Thoughtful design and meaningful experiences at every step.</p></div>
-            <div><b>⌁</b><h3>Cloud Native</h3><p>Scalable, secure and reliable solutions built for modern infrastructure.</p></div>
-            <div><b>◇</b><h3>Built to Last</h3><p>Quality code, strong architecture and a vision for the future.</p></div>
+            <div className="pillar"><PillarIcon type="people" /><div><h3>Built for People</h3><p>Meaningful experiences<br />that make a difference.</p></div></div>
+            <div className="pillar"><PillarIcon type="privacy" /><div><h3>Privacy First</h3><p>Your data. Your control.</p></div></div>
+            <div className="pillar"><PillarIcon type="improving" /><div><h3>Always Improving</h3><p>Built with modern<br />technologies.</p></div></div>
+            <div className="pillar"><PillarIcon type="scale" /><div><h3>Made to Scale</h3><p>Ready for today.<br />Built for tomorrow.</p></div></div>
           </div>
         </section>
 
